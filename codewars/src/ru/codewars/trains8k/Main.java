@@ -1,18 +1,19 @@
 package ru.codewars.trains8k;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 	public static final Random rnd = new Random();
+	public static final Scanner sc = new Scanner(System.in);
+	
 
 	public static void main(String[] args) {
-		for (int i = 100; i - 1 > 0; --i) {
-			long n = rnd.nextInt(200);
-			long m = rnd.nextInt(200);
-			System.out.println(n + " " + m + " : " 
-					+ WeirdPrimeGen.grcodi(n, m));
+		long[] a = WeirdPrimeGen.an(1000);
+		long[] g = WeirdPrimeGen.gn(1000);
+		for (int i = 1; i < a.length; ++i) {
+			System.out.println(i + "\t" + a[i] + "\t" + g[i] + "\t" 
+					+ a[i]%3);
 		}
-		System.out.println((new BrokenSequence().findMissingNumber("")));
 	}
-
 }
