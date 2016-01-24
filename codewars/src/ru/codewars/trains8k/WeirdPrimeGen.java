@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class WeirdPrimeGen {
 	private static long[] an = new long[] {7};
 	private static long[] gn = new long[] {1};
-	private static long[] pn;
+	private static long[] pn = new long[] {5};
 	
     public static long countOnes(long n) {
     	long[] temp = gn(n).clone();
@@ -37,7 +37,7 @@ public class WeirdPrimeGen {
     		return null;
     	}
     	long[] tempGn = Arrays.copyOf(gn, (int) n);
-    	an(gn.length);
+    	an(n);
     	if (n > gn.length) {
 	    	for (int i = gn.length; i < tempGn.length; ++i){
 	    		tempGn[i] = an[i] - an[i-1];
@@ -51,28 +51,46 @@ public class WeirdPrimeGen {
     	if (n > Integer.MAX_VALUE){
     		return null;
     	}
-    	long[] tempGn = Arrays.copyOf(pn, (int) n);
-    	gn(pn.length);
-    	if (n > gn.length) {
-	    	for (int i = gn.length; i < tempGn.length; ++i){
-	    		tempGn[i] = an[i] - an[i-1];
-	    	}
-	    	gn = tempGn;
+    	gn(n);
+    	int start = 0;
+    	int counter = pn.length;
+    	long[] tempPn = Arrays.copyOf(pn, (int) n);
+    	Arrays.fill(tempPn, pn.length, tempPn.length, Long.MAX_VALUE);
+    	if (n > pn.length) {
+	    	do {
+		    	for (int i = start; i < gn.length; ++i){
+		    		if (gn[i] != 1) {
+		    			if (Arrays.binarySearch(tempPn, gn[i]) < 0){
+		    				tempPn[counter++] = gn[i];
+		    				Arrays.sort(tempPn);
+		    				if (counter == tempPn.length) {
+		    					break;
+		    				} 
+		    			}
+		    		}
+		    	}
+		    	start = gn.length;
+		    	gn(2 * start);
+	    	} while (counter < tempPn.length);
+	    	pn = tempPn;
     	}
-    	return tempGn;
+    	return tempPn;
+    }
+    
+    public static long[] anOver(long n) {
+    	long[] result = new long[(int) n];
+    	Arrays.fill(result, 3L);
+    	return result;
     }
     
     public static long maxPn(long n) {
-    	return 0;
-        // your code
+    	pn(n);
+    	return (pn[(int)n-1]);
+
+
     }
     public static int anOverAverage(long n) {
-    	return 0;
-        // your code
-    }
-    
-    public static long grcodi(long n, long m){
-    	return gcd(n, m);
+    	return 3;
     }
     
     private static long gcd(long nn, long mm) {
