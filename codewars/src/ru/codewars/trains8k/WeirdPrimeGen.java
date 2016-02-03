@@ -6,6 +6,7 @@ public class WeirdPrimeGen {
 	private static long[] an = new long[] {7};
 	private static long[] gn = new long[] {1};
 	private static long[] pn = new long[] {5};
+	private static long[] keyValues = new long[] {7, 8};
 	
     public static long countOnes(long n) {
     	long[] temp = gn(n).clone();
@@ -16,6 +17,25 @@ public class WeirdPrimeGen {
     		}
     	}
     	return 0;
+    }
+    
+    public static void generateKeys(int n) {
+    	if (n > keyValues.length) {
+    		int updLength = n + n % 2;
+    		int current = keyValues.length;
+    		keyValues = Arrays.copyOf(keyValues, updLength);
+    		boolean isNotDone = true;
+    		while  (isNotDone){
+    			keyValues[current] = keyValues[current - 1] + keyValues[current - 2];
+    			keyValues[current + 1] = keyValues[current] + 3;
+    			current += 2;
+    			isNotDone = (current < updLength) && (current < Integer.MAX_VALUE);
+    		}
+    	}
+    }
+    
+    public static long[] getKeyVals() {
+    	return keyValues;
     }
     
     public static long[] an(long n){
@@ -55,8 +75,8 @@ public class WeirdPrimeGen {
     	int start = 0;
     	int counter = pn.length;
     	long[] tempPn = Arrays.copyOf(pn, (int) n);
-    	Arrays.fill(tempPn, pn.length, tempPn.length, Long.MAX_VALUE);
     	if (n > pn.length) {
+    		Arrays.fill(tempPn, pn.length, tempPn.length, Long.MAX_VALUE);
 	    	do {
 		    	for (int i = start; i < gn.length; ++i){
 		    		if (gn[i] != 1) {
@@ -84,8 +104,8 @@ public class WeirdPrimeGen {
     }
     
     public static long maxPn(long n) {
-    	pn(n);
-    	return (pn[(int)n-1]);
+    	pn(n+1);
+    	return pn[(int)n];
 
 
     }
